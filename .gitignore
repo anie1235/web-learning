@@ -1,0 +1,12 @@
+# 系统 / 编辑器自动生成的文件
+Thumbs.db
+desktop.ini
+.DS_Store
+*.tmp
+*.bak
+~$*
+
+# 编辑器配置
+.vscode/
+.idea/
+*.code-workspace

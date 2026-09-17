@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>东华门嘉丽蹲大学螺旋门分部 - 官方网站</title>
+  <style>
+    /* ============================================================
+       设计变量：全站颜色 / 圆角 / 阴影都在这里，改这里=改全站
+       ============================================================ */
+    :root {
+      --primary:      #079cdc;                 
+      --primary-dark: #056ba0;                 
+      --accent:       #b10cbd;                 
+      --ink:          #1f2a37;                 
+      --ink-soft:     #5f6b7c;                 
+      --bg-soft:      #f4f9fd;                
+      --line:         #e5eef6;                
+      --radius:       14px;
+      --shadow:       0 8px 28px rgba(7, 156, 220, .10);
+      --shadow-hover: 0 14px 36px rgba(7, 156, 220, .18);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }          /* 点菜单平滑滚动到对应区块 */
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      color: var(--ink);
+      line-height: 1.75;
+      background: #fff;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    section { scroll-margin-top: 84px; }       /* 锚点跳转时不被顶部导航挡住 */
+
+    h2.section-title {
+      margin: 0 0 8px;
+      font-size: 28px;
+      text-align: center;
+    }
+    p.section-sub {
+      margin: 0 0 36px;
+      text-align: center;
+      color: var(--ink-soft);
+      font-size: 15px;
+    }
+
+    /* ============================================================
+       ① 顶部导航栏（sticky = 滚动时一直钉在最上面）
+       ============================================================ */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, .95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      text-decoration: none;
+      color: var(--ink);
+      font-weight: 700;
+      font-size: 17px;
+    }
+    .logo-mark {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800;
+    }
+
+    .nav { display: flex; gap: 4px; }
+    .nav a {
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 15px;
+      transition: color .2s, background .2s;
+    }
+    .nav a:hover { color: var(--primary); background: #eaf5fd; }
+
+    /* 手机端菜单：纯 CSS 实现，靠一个隐藏的复选框 */
+    .nav-toggle { display: none; }
+    .burger {
+      display: none;
+      font-size: 24px;
+      color: var(--primary);
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    @media (max-width: 768px) {
+      .burger { display: block; }
+      .nav {
+        display: none;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+        padding: 10px 16px 16px;
+        box-shadow: var(--shadow);
+      }
+      /* 点了 ☰ 之后（复选框被勾上）就展开菜单；~ 是「后面的兄弟元素」 */
+      .nav-toggle:checked ~ .nav { display: flex; }
+    }
+
+    /* ============================================================
+       ② 首屏 Banner
+       ============================================================ */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 20px;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, #079cdc 0%, #4f6bf0 55%, #b10cbd 100%);
+    }
+    .hero::after {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.25), transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(255,255,255,.18), transparent 45%);
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 5px 18px;
+      margin-bottom: 20px;
+      font-size: 12px;
+      letter-spacing: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.4);
+    }
+    .hero h1 {
+      margin: 0;
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.3;
+      text-shadow: 0 2px 14px rgba(0,0,0,.18);
+    }
+    .hero p {
+      max-width: 560px;
+      margin: 18px auto 30px;
+      font-size: 16px;
+      opacity: .92;
+    }
+    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      border-radius: 999px;
+      font-size: 15px;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .btn-primary {
+      background: #fff;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.2); }
+    .btn-ghost {
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.65);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,.16); }
+
+    /* 想换成真实照片当背景：把 background 换成下面两行
+       background-image: url('banner.jpg');
+       background-size: cover; background-position: center; */
+
+    /* ============================================================
+       ③ 数据统计条
+       ============================================================ */
+    .stats { background: var(--bg-soft); padding: 44px 0; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      text-align: center;
+    }
+    .stat b { display: block; font-size: 32px; color: var(--primary); }
+    .stat span { font-size: 14px; color: var(--ink-soft); }
+
+    /* ============================================================
+       ④ 学校概况（左文右图）+ 领导架构
+       ============================================================ */
+    .about { padding: 72px 0; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 36px;
+      align-items: center;
+      margin-bottom: 56px;
+    }
+    .about p { color: var(--ink-soft); font-size: 15.5px; }
+    .ph {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 220px;
+      border-radius: var(--radius);
+      color: #e3eae9; font-size: 14px; letter-spacing: 2px;
+      background: linear-gradient(135deg, #9ec9e8, #7fb3dd);
+    }
+
+    /* 领导架构人物卡 */
+    .members {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .member {
+      padding: 26px 16px;
+      text-align: center;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: transform .22s, box-shadow .22s;
+    }
+    .member:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .avatar {
+      width: 66px; height: 66px;
+      margin: 0 auto 14px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      font-size: 26px; font-weight: 700; color: #fff;
+    }
+    .avatar.c1 { background: linear-gradient(135deg, #ff7a59, #e0245e); }
+    .avatar.c2 { background: linear-gradient(135deg, #079cdc, #3b6ef5); }
+    .avatar.c3 { background: linear-gradient(135deg, #12b886, #0aa06e); }
+    .role {
+      display: inline-block;
+      padding: 2px 12px;
+      margin-bottom: 6px;
+      font-size: 12.5px;
+      border-radius: 999px;
+      background: #eaf5fd;
+      color: var(--primary);
+    }
+    .member.lead .role { background: #ffe9ec; color: #e0245e; }
+    .name { font-size: 17px; font-weight: 700; }
+
+    /* ============================================================
+       ⑤ 新闻动态
+       ============================================================ */
+    .news { padding: 72px 0; background: var(--bg-soft); }
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .news-card {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      transition: transform .22s, box-shadow .22s;
+    }
+    .news-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .news-card .cover { height: 140px; border-radius: 0; }
+    .news-card .cover.c1 { background: linear-gradient(135deg, #079cdc, #4f6bf0); }
+    .news-card .cover.c2 { background: linear-gradient(135deg, #12b886, #0aa06e); }
+    .news-card .cover.c3 { background: linear-gradient(135deg, #ff7a59, #e0245e); }
+    .news-body { padding: 18px 20px 22px; }
+    .news-date { font-size: 12.5px; color: var(--ink-soft); }
+    .news-body h3 { margin: 6px 0 8px; font-size: 16.5px; }
+    .news-body p { margin: 0; font-size: 14px; color: var(--ink-soft); }
+    .news-more {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 13.5px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .news-more:hover { text-decoration: underline; }
+
+    /* ============================================================
+       ⑥ 校园风采（四图网格）
+       ============================================================ */
+    .gallery { padding: 72px 0; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .gallery .ph {
+      min-height: 150px;
+      border-radius: 12px;
+      transition: transform .25s;
+    }
+    .gallery .ph:hover { transform: scale(1.04); }
+    .gallery .ph.g2 { background: linear-gradient(135deg, #12b886, #0aa06e); }
+    .gallery .ph.g3 { background: linear-gradient(135deg, #ff7a59, #e0245e); }
+    .gallery .ph.g4 { background: linear-gradient(135deg, #b10cbd, #6a4de0); }
+
+    /* ============================================================
+       ⑦ 联系我们
+       ============================================================ */
+    .contact { padding: 72px 0; background: var(--bg-soft); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 36px;
+    }
+    .contact-info { font-size: 15px; color: var(--ink-soft); }
+    .contact-info li {
+      list-style: none;
+      margin-bottom: 14px;
+      padding-left: 4px;
+    }
+    .contact-info ul { padding: 0; margin: 0; }
+
+    .form { display: grid; gap: 14px; }
+    .form input,
+    .form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font: inherit;
+      font-size: 14.5px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      background: #fff;
+    }
+    .form input:focus,
+    .form textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(7, 156, 220, .15);
+    }
+    .form textarea { min-height: 120px; resize: vertical; }
+    .form button {
+      justify-self: start;
+      padding: 12px 34px;
+      font: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), #4f6bf0);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .form button:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+
+    /* ============================================================
+       ⑧ 页脚
+       ============================================================ */
+    .footer {
+      background: #16233a;
+      color: #aab7cc;
+      padding: 52px 0 0;
+      font-size: 14px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 36px;
+      padding-bottom: 40px;
+    }
+    .footer h4 { margin: 0 0 14px; color: #fff; font-size: 15.5px; }
+    .footer ul { margin: 0; padding: 0; }
+    .footer li { list-style: none; margin-bottom: 9px; }
+    .footer a { color: #aab7cc; text-decoration: none; }
+    .footer a:hover { color: #fff; }
+    .copyright {
+      padding: 18px 0;
+      text-align: center;
+      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    /* 返回顶部：position: fixed 悬浮在屏幕右下角，不随滚动移动 */
+    .back-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 20px;
+      text-decoration: none;
+      box-shadow: var(--shadow-hover);
+      transition: transform .2s;
+    }
+    .back-top:hover { transform: translateY(-3px); }
+
+    /* ============================================================
+       手机适配
+       ============================================================ */
+    @media (max-width: 860px) {
+      .about-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+      .members, .news-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
+      .hero h1 { font-size: 28px; }
+      .hero { padding: 64px 20px; }
+    }
+  </style>
+</head>
+<body id="home">
+
+  <!-- ==================== ① 顶部导航 ==================== -->
+  <header class="header">
+    <div class="container header-inner">
+
+      <a class="logo" href="#home">
+        <span class="logo-mark">豪</span>
+        <span>螺旋门分部</span>
+      </a>
+
+      <!-- 手机端的 ☰ 按钮（纯 CSS 实现，原理：勾选复选框就展开菜单） -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle">
+      <label for="nav-toggle" class="burger">☰</label>
+
+      <!-- href="#xxx" 对应下面各区块的 id -->
+      <nav class="nav">
+        <a href="#home">首页</a>
+        <a href="#about">学校概况</a>
+        <a href="#news">新闻动态</a>
+        <a href="#gallery">校园风光</a>
+        <a href="#contact">联系我们</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ==================== ② 首屏 Banner ==================== -->
+  <section class="hero">
+    <span class="hero-badge">官 方 网 站</span>
+   <h1>东华门嘉丽蹲大学<br>螺旋门分部</h1>
+    <p>厚德博学 · 追求卓越 —— 培养具有螺旋精神的新时代人才</p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="月读模式.html">了解学校</a>
+      <a class="btn btn-ghost" href="#contact">联系我们</a>
+    </div>
+  </section>
+
+  <!-- ==================== ③ 数据统计条 ==================== -->
+  <div class="stats">
+    <div class="container stats-grid">
+      <div class="stat"><b>1.2万+</b><span>在校学生</span></div>
+      <div class="stat"><b>860</b><span>教职工</span></div>
+      <div class="stat"><b>18</b><span>院系数量</span></div>
+      <div class="stat"><b>2600亩</b><span>占地面积</span></div>
+    </div>
+  </div>
+
+  <!-- ==================== ④ 学校概况 + 领导架构 ==================== -->
+  <section class="about" id="about">
+    <div class="container">
+
+      <h2 class="section-title">学校概况</h2>
+      <p class="section-sub">About Us</p>
+
+      <div class="about-grid">
+        <div>
+          <p>
+            东华门嘉丽蹲大学螺旋门分部是一所历史悠久、底蕴深厚的综合性学府。
+            学校秉承「厚德博学、追求卓越」的校训，坚持立德树人根本任务，
+            在人才培养、科学研究、社会服务等方面取得了丰硕成果。
+          </p>
+          <p>
+            学校现有全日制在校学生一万两千余人，教职工八百六十余人，
+            设有十八个二级院系，涵盖文、理、工、管、艺等多个学科门类，
+            为社会输送了大批优秀人才。
+          </p>
+          <!-- 想放校园照片：把这行 .ph 换成 <img src="campus.jpg" style="width:100%; border-radius:14px;"> -->
+        </div>
+        <img src="xiaoyuanbeijingtu.webp" style="width:100%; border-radius:20px;">
+      </div>
+
+      <h2 class="section-title" style="font-size:22px;">领导架构</h2>
+      <p class="section-sub">Leadership</p>
+
+      <div class="members">
+        <div class="member lead">
+          <img src="quming.png" style="width:66%; border-radius:20px;">
+          <div class="avatar c1">屈</div>
+          <div class="role">院长</div>
+          <div class="name">瞿冥</div>
+        </div>
+        <div class="member">
+          <img src="yuhaichuan.png" style="width:66%; border-radius:20px;">
+          <div class="avatar c2">于</div>
+          <div class="role">副院长</div>
+          <div class="name">鱼嗨喘</div>
+        </div>
+        <div class="member">
+          <img src="qiafulan.png" style="width:66%; border-radius:20px;">
+          <div class="avatar c3">卢</div>
+          <div class="role">后厨主管</div>
+          <div class="name">卤子焊</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== ⑤ 新闻动态 ==================== -->
+  <section class="news" id="news">
+    <div class="container">
+
+      <h2 class="section-title">新闻动态</h2>
+      <p class="section-sub">News</p>
+
+      <div class="news-grid">
+
+        <div class="news-card">
+          <div class="cover c1"></div>   <!-- 换图片：<img src="news1.jpg" style="width:100%;height:140px;object-fit:cover;display:block;"> -->
+          <div class="news-body">
+            <div class="news-date">2026-09-10</div>
+            <h3>我校召开新学期教学工作部署会议</h3>
+            <p>会议明确了本学期教学重点任务，部署了教学质量提升专项行动。</p>
+            <a class="news-more" href="#">阅读详情 →</a>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="cover c2"></div>
+          <div class="news-body">
+            <div class="news-date">2026-09-05</div>
+            <h3>2026级新生开学典礼隆重举行</h3>
+            <p>三千余名新生齐聚体育馆，开启大学生活的崭新篇章。</p>
+            <a class="news-more" href="#">阅读详情 →</a>
+          </div>
+        </div>
+
+        <div class="news-card">
+          <div class="cover c3"></div>
+          <div class="news-body">
+            <div class="news-date">2026-08-28</div>
+            <h3>我校在省级技能大赛中斩获佳绩</h3>
+            <p>代表队共获得一等奖2项、二等奖5项，创历史最好成绩。</p>
+            <a class="news-more" href="#">阅读详情 →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ⑥ 校园风光 ==================== -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+
+      <h2 class="section-title">校园风光</h2>
+      <p class="section-sub">Campus Life</p>
+
+      <div class="gallery-grid"style="width: 100%px; border-radius:20px;" >
+        <img src="huozhe.jpg" alt="教学楼"
+     style="width:100%; min-height:220px; object-fit:cover; border-radius:14px; display:block;">
+        <img src="tushuguan.webp" alt="图书馆"
+     style="width:100%; min-height:220px; object-fit:cover; border-radius:14px; display:block;">
+        <img src="caochang.jpg" alt="操场"
+     style="width:100%; min-height:220px; object-fit:cover; border-radius:14px; display:block;">
+        <img src="shiyanlou.webp" alt="实验楼"
+     style="width:100%; min-height:220px; object-fit:cover; border-radius:14px; display:block;">
+        <!-- 换图片示例：
+             <img src="campus1.jpg" style="width:100%; height:150px; object-fit:cover; border-radius:12px; display:block;"> -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== ⑦ 联系我们 ==================== -->
+  <section class="contact" id="contact">
+    <div class="container">
+
+      <h2 class="section-title">联系我们</h2>
+      <p class="section-sub">Contact Us</p>
+
+      <div class="contact-grid">
+
+        <div class="contact-info">
+          <ul>
+            <li>📍 地址：东华门嘉丽蹲大街 88 号 螺旋门大厦</li>
+            <li>📞 电话：0100-8888222222-66663333333333</li>
+            <li>📮 邮箱：hello@我没招了.eddu.ccccn</li>
+            <li>🕘 办公时间：周一至周五 9:00 - 17:30</li>
+          </ul>
+        </div>
+
+        <!-- 注意：这个表单目前只能看不能用，提交需要服务器（后端）配合 -->
+        <form class="form">
+          <input type="text" placeholder="您的姓名">
+          <input type="email" placeholder="您的邮箱">
+          <textarea placeholder="想对我们说的话..."></textarea>
+          <button type="button">发送留言</button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ⑧ 页脚 ==================== -->
+  <footer class="footer">
+    <div class="container">
+
+      <div class="footer-grid">
+        <div>
+          <h4>东华门嘉丽蹲大学螺旋门分部</h4>
+          <p>我类同雷丸<br>我从来都唔会虚。</p>
+        </div>
+        <div>
+          <h4>快速链接</h4>
+          <ul>
+            <li><a href="#about">学校概况</a></li>
+            <li><a href="#news">新闻动态</a></li>
+            <li><a href="#gallery">校园风光</a></li>
+            <li><a href="#contact">联系我们</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>友情链接</h4>
+          <ul>
+            <li><a href="https://www.baidu.com/" target="_blank" rel="noopener">你胆子真是肥嘟嘟的</a></li>
+            <li><a href="月读模式.html">月读模式</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 东华门嘉丽蹲大学螺旋门分部 · 版权只归屈上皇个人所有
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- 返回顶部：href="#home" 跳回 body 的 id -->
+  <a class="back-top" href="#home" title="返回顶部">↑</a>
+
+</body>
+</html>

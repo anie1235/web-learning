@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鱼嗨喘 - 照片与书籍</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, "Microsoft YaHei", sans-serif;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px;
+      color: #18191c;
+    }
+
+    
+    .cover {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 12px;
+      display: block;   
+    }
+
+    
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .book {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+    .book img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;           
+      border-radius: 8px;
+      display: block;
+    }
+    .book h3 { font-size: 15px; margin: 10px 0 4px; }
+    .book p  { font-size: 13px; color: #888; margin: 0 0 10px; }
+    .book a  {
+      display: inline-block;
+      font-size: 13px;
+      color: #c707a4;
+      text-decoration: none;
+    }
+    .book a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <p>内指向 <a href="leidian.jpg">鱼嗨喘</a></p>
+
+  <h1>照片</h1>
+  <!-- 换成你自己的图片文件名 -->
+  <img class="cover" src="leidian.jpg" alt="谁的老婆？">
+
+  <hr>
+
+  <h1>书籍</h1>
+  <div class="book-grid">
+
+    <div class="book">
+      <img src="santi.jpg" alt="《三体》封面">
+      <h3>《三体》</h3>
+      <p>刘慈欣 / 科幻</p>
+      <!-- 原来这里指向工作用的 PPT 文件，上传公开/私有仓库都不合适，先占位 -->
+      <a href="#">下载阅读（原链接已移除）</a>
+    </div>
+
+    <div class="book">
+      <img src="huozhe.jpg" alt="《活着》封面">
+      <h3>《活着》</h3>
+      <p>余华 / 小说</p>
+      <!-- 原来这里指向工作用的 Excel 文件，先占位 -->
+      <a href="#">下载阅读（原链接已移除）</a>
+    </div>
+
+  </div>
+
+</body>
+</html>
